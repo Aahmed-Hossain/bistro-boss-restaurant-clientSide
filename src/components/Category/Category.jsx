@@ -1,7 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css/pagination';
 import 'swiper/css';
-import {Pagination } from 'swiper/modules';
+import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 import img1 from '../../assets/home/slide1.jpg'
 import img2 from '../../assets/home/slide2.jpg'
 import img3 from '../../assets/home/slide3.jpg'
@@ -14,10 +14,18 @@ const Category = () => {
         <SectionTitle title={'From 11AM to 10PM'}
         heading={'Order online'}></SectionTitle>
          <Swiper
+        slidesPerView={3}
+        spaceBetween={30}
+        loop={true}
         pagination={{
           clickable: true,
         }}
-        modules={[Pagination]}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
+        navigation={true}
+        modules={[ Autoplay,Pagination, Navigation]}
         className="mySwiper"
       >
         <SwiperSlide><img src={img1} alt="" /></SwiperSlide>
