@@ -1,16 +1,17 @@
 import logo from '../../assets/logo.png'
+import useAuth from '../../hooks/useAuth';
 import NavbarLinks from "./NavbarLinks";
-import {  Link, NavLink,  } from 'react-router-dom';
-
-
+import {  Link, NavLink, useNavigate,  } from 'react-router-dom';
+import Swal from 'sweetalert2'
 const Navbar = () => {
-  const {user} = 'use';
-//   const handleLogout = () =>{
-//     logOut()
-//     .then(swal("Nice!", "You logged out successfully!", "success"))
-//     navigateToLogin('/login')
-//     .catch(err => {swal(err.message)})
-//   }
+  const navigateToLogin = useNavigate();
+  const {user, logOut} = useAuth();
+  const handleLogout = () =>{
+    logOut()  
+    .then(Swal.fire("Nice!", "You logged out successfully!",  "success"))        // sweet alert 2
+    navigateToLogin('/login')
+    .catch(err => {Swal.fire(err.message)})
+  }
   const links = <>
     <NavbarLinks></NavbarLinks>
     </>
@@ -45,7 +46,7 @@ const Navbar = () => {
       <li> <button className="btn btn-sm  btn-ghost"><Link to={'/orders'}> My Orders</Link></button></li>
       <li> <button className="btn btn-sm  btn-ghost"><Link to={'/addFoods'}>Add Foods</Link></button></li>
       <li> <button className="btn btn-sm btn-ghost"><Link to={'/MyAddedFoods'}>My Added Foods</Link></button></li>
-      <li><button  className="btn btn-sm  btn-ghost">Logout</button></li>
+      <li><button onClick={handleLogout} className="btn btn-sm  btn-ghost">Logout</button></li>
     </ul>
   </div>
     :

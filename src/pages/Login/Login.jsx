@@ -7,24 +7,27 @@ import img from "../../assets/others/authentication1.png";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
-  LoadCanvasTemplateNoReload,
   validateCaptcha,
 } from "react-simple-captcha";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import useAuth from "../../hooks/useAuth";
+import Swal from "sweetalert2";
 
 const Login = () => {
-  const captchaRef = useRef();
   const [disable, setDisable] = useState(true);
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
-  const { googleLogin, githubLogin } = "useAuth();";
+  const { logIn } = useAuth();
   const handleLogin = (event) => {
     event.preventDefault();
     const form = event.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
+    logIn(email, password).then((res) => {
+      console.log(res);
+      Swal.fire("Greate", "User Created Successfully", "success");
+    });
     // logIn(email, password)
     //   .then((res) => {
     //     console.log(res);
@@ -34,7 +37,7 @@ const Login = () => {
     //   .catch((err) => {
     //     swal("opps!", err.message, "error");
     //   });
-    form.reset()
+    form.reset();
   };
   //   social login
   //   const hadleSocialLogin = (media) => {
@@ -47,13 +50,12 @@ const Login = () => {
   //         console.log(err);
   //       });
   //   };
-  const handleValidateCaptcha = () => {
-    const user_captcha_value = captchaRef.current.value;
+  const handleValidateCaptcha = (e) => {
+    const user_captcha_value = e.target.value;
     if (validateCaptcha(user_captcha_value)) {
       setDisable(false);
-    }
-    else{
-        setDisable(true)
+    } else {
+      setDisable(true);
     }
   };
 
@@ -100,20 +102,14 @@ const Login = () => {
                 <label className="label">
                   <LoadCanvasTemplate />
                 </label>
-                <div className="relative">
+                <div className="relative w-full">
                   <input
+                    onBlur={handleValidateCaptcha}
                     type="text"
-                    ref={captchaRef}
                     name="capcha"
-                    placeholder="Type capcha"
+                    placeholder="Submit Above Captcha"
                     className="border-b border-[#d97706] w-full py-3 px-3 focus:outline-none bg-transparent"
                   />
-                  <button
-                    className="absolute right-0 top-2 bottom-0 px-2 rounded-md btn btn-sm bg-[#d97706] text-white"
-                    onClick={handleValidateCaptcha}
-                  >
-                    Submit
-                  </button>
                 </div>
               </div>
 
@@ -146,7 +142,7 @@ const Login = () => {
               <span>Continue with Github</span>
             </button>
             <p className="my-4 text-center">
-              New to Fire Up Restaurant{" "}
+              New to Bistro Boss Restaurant{" "}
               <Link
                 className="text-yellow-600 font-bold link-hover "
                 to="/register"
