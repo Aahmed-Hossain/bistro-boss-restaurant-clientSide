@@ -1,20 +1,32 @@
 import img from "../../assets/others/authentication2.png";
 import googleImg from "../../assets/others/google.png";
 import githubImg from "../../assets/others/github.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 const Register = () => {
-    const { createUser,  } =
-    useAuth();
-  const {register,handleSubmit,formState: { errors },
+  const navigate = useNavigate()
+  const { createUser,updateUser } = useAuth();
+  const {
+    register,
+    handleSubmit,reset,
+    formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
     console.log(data);
-    createUser(data.email, data.password).then(result =>{console.log(result.user);})
+    createUser(data.email, data.password, data.img).then((result) => {
+      console.log(result.user);
+      updateUser(data.name, data.img)
+      .then(()=>{
+        console.log("user updated");
+        reset();
+        Swal.fire('WoW', "user updated", "success")
+        navigate('/')
+      })
+      .then(err => console.log(err))
+    });
   };
-  //   const navigate = useNavigate();
-  
 
   return (
     <div className="hero min-h-screen">
@@ -40,7 +52,11 @@ const Register = () => {
                   {...register("name", { required: true })}
                   placeholder="Enter your Name"
                 />
-                {errors.name && <span className="text-red-700 font-xm">*Name is required*</span>}
+                {errors.name && (
+                  <span className="text-red-700 font-xm">
+                    *Name is required*
+                  </span>
+                )}
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -78,16 +94,40 @@ const Register = () => {
                   className="border-b border-[#d97706] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none bg-transparent"
                   type="password"
                   name="password"
-                  
                   id="password"
                   placeholder="Enter your password"
-                  {...register("password",  { required: true,minLength: 8,maxLength: 20 ,  pattern: /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}/ })}
+                  {...register("password", {
+                    required: true,
+                    minLength: 8,
+                    maxLength: 20,
+                    pattern:
+                      /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}/,
+                  })}
                 />
-                {errors.exampleRequired && <span className="text-red-500">This field is required</span>}
-                {errors.password?.type==="required" && <span className="text-red-700 font-xm">*Password is required*</span>}
-                {errors.password?.type==="minLength" && <span className="text-red-700 font-xm">*Password is must be 8 at least characters*</span>}
-                {errors.password?.type==="maxLength" && <span className="text-red-700 font-xm">*Password is must be 20 in characters*</span>}
-                {errors.password?.type==="pattern" && <span className="text-red-700 font-xm">*Password must have at least one upper case, one lower case, one digit and special character*</span>}
+                {errors.exampleRequired && (
+                  <span className="text-red-500">This field is required</span>
+                )}
+                {errors.password?.type === "required" && (
+                  <span className="text-red-700 font-xm">
+                    *Password is required*
+                  </span>
+                )}
+                {errors.password?.type === "minLength" && (
+                  <span className="text-red-700 font-xm">
+                    *Password is must be 8 at least characters*
+                  </span>
+                )}
+                {errors.password?.type === "maxLength" && (
+                  <span className="text-red-700 font-xm">
+                    *Password is must be 20 in characters*
+                  </span>
+                )}
+                {errors.password?.type === "pattern" && (
+                  <span className="text-red-700 font-xm">
+                    *Password must have at least one upper case, one lower case,
+                    one digit and special character*
+                  </span>
+                )}
               </div>
               <button
                 className="hover:bg-[#d97706] bg-[#e98008] font-semibold py-2 px-4 w-full text-white"

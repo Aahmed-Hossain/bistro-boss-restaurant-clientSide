@@ -3,6 +3,9 @@ import useAuth from '../../hooks/useAuth';
 import NavbarLinks from "./NavbarLinks";
 import {  Link, NavLink, useNavigate,  } from 'react-router-dom';
 import Swal from 'sweetalert2'
+import { FaCartShopping } from "react-icons/fa6";
+
+
 const Navbar = () => {
   const navigateToLogin = useNavigate();
   const {user, logOut} = useAuth();
@@ -43,9 +46,8 @@ const Navbar = () => {
       </label>
     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-slate-900 text-white rounded-box w-52 ">
       <li><button className="btn btn-sm  btn-ghost">{user.displayName}</button></li>
-      <li> <button className="btn btn-sm  btn-ghost"><Link to={'/orders'}> My Orders</Link></button></li>
-      <li> <button className="btn btn-sm  btn-ghost"><Link to={'/addFoods'}>Add Foods</Link></button></li>
-      <li> <button className="btn btn-sm btn-ghost"><Link to={'/MyAddedFoods'}>My Added Foods</Link></button></li>
+      <li> <button className="btn btn-sm  btn-ghost"><Link to={'/'}> <div className="badge badge-secondary"> 0+<FaCartShopping />
+</div></Link></button></li>
       <li><button onClick={handleLogout} className="btn btn-sm  btn-ghost">Logout</button></li>
     </ul>
   </div>

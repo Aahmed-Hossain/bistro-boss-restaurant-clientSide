@@ -8,6 +8,7 @@ const NavbarLinks = () => {
   <NavLink to="/menu" className={({ isActive }) => isActive ? 'border-b-2 text-[#F59E0B] border-[#F59E0B]' : 'hover:text-[#F59E0B]'}>Menu</NavLink>
   <NavLink to="/order/salad" className={({ isActive }) => isActive ? 'border-b-2 text-[#F59E0B] border-[#F59E0B]' : 'hover:text-[#F59E0B]'}>Order Food</NavLink>
   <NavLink to="/login" className={({ isActive }) => isActive ? 'border-b-2 text-[#F59E0B] border-[#F59E0B]' : 'hover:text-[#F59E0B]'}>Login</NavLink>
+  <NavLink to="/secret" className={({ isActive }) => isActive ? 'border-b-2 text-[#F59E0B] border-[#F59E0B]' : 'hover:text-[#F59E0B]'}>Secret</NavLink>
 </ul>
 
     );

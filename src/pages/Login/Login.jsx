@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import githubImg from "../../assets/others/github.png";
 import googleImg from "../../assets/others/google.png";
 import img from "../../assets/others/authentication1.png";
@@ -12,9 +12,13 @@ import {
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [disable, setDisable] = useState(true);
+  const location = useLocation()
+  const navigate = useNavigate();
+  const from = location?.state?.from?.pathname || '/';
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -26,7 +30,9 @@ const Login = () => {
     const password = form.password.value;
     logIn(email, password).then((res) => {
       console.log(res);
-      Swal.fire("Greate", "User Created Successfully", "success");
+      Swal.fire("Great", "User Created Successfully", "success");
+      form.reset();
+    navigate(from,{replace: true})
     });
     // logIn(email, password)
     //   .then((res) => {
@@ -37,7 +43,7 @@ const Login = () => {
     //   .catch((err) => {
     //     swal("opps!", err.message, "error");
     //   });
-    form.reset();
+    
   };
   //   social login
   //   const hadleSocialLogin = (media) => {
