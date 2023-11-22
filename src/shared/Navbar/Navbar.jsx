@@ -4,11 +4,14 @@ import NavbarLinks from "./NavbarLinks";
 import {  Link, NavLink, useNavigate,  } from 'react-router-dom';
 import Swal from 'sweetalert2'
 import { FaCartShopping } from "react-icons/fa6";
+import useCart from '../../hooks/useCart';
 
 
 const Navbar = () => {
   const navigateToLogin = useNavigate();
   const {user, logOut} = useAuth();
+  const [cart] = useCart();
+  console.log('cart length', cart);
   const handleLogout = () =>{
     logOut()  
     .then(Swal.fire("Nice!", "You logged out successfully!",  "success"))        // sweet alert 2
@@ -46,7 +49,7 @@ const Navbar = () => {
       </label>
     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-slate-900 text-white rounded-box w-52 ">
       <li><button className="btn btn-sm  btn-ghost">{user.displayName}</button></li>
-      <li> <button className="btn btn-sm  btn-ghost"><Link to={'/'}> <div className="badge badge-secondary"> 0+<FaCartShopping />
+      <li> <button className="btn btn-sm  btn-ghost"><Link to={'/'}> <div className="badge badge-secondary">+{cart.length}<FaCartShopping />
 </div></Link></button></li>
       <li><button onClick={handleLogout} className="btn btn-sm  btn-ghost">Logout</button></li>
     </ul>

@@ -34,15 +34,6 @@ const Login = () => {
       form.reset();
     navigate(from,{replace: true})
     });
-    // logIn(email, password)
-    //   .then((res) => {
-    //     console.log(res);
-    //     swal("WoW!", "User logged in successfully!", "success");
-    //     navigate(location?.state ? location.state : "/");
-    //   })
-    //   .catch((err) => {
-    //     swal("opps!", err.message, "error");
-    //   });
     
   };
   //   social login

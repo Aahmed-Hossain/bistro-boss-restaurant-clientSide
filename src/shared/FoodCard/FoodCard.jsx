@@ -3,17 +3,40 @@
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
+import { axiosHook } from './../../hooks/useAxios';
+import useCart from "../../hooks/useCart";
 
 const FoodCard = ({ item }) => {
-  const { image, name, recipe, price } = item;
+  const { _id, image, name, recipe, price } = item;
   const { user } = useAuth();
+  const [, refetch] = useCart();
   const navigate = useNavigate();
   const location = useLocation();
   const handleAddToCart = (food) => {
     console.log(food);
-    if (user && user?.email) {
-      console.log(user.email);
-      const cartItem = {menuId: _id, user: user?.email, name, image, price}
+    if (user && user.email) {
+      const addToCart = async () => {
+        try {
+          const cartItem = { menuId: _id, email: user.email, name, image, price };
+          const res = await axiosHook.post('/carts', cartItem);
+          if(res.data.insertedId){
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: `${name} has been saved `,
+              showConfirmButton: false,
+              timer: 1500
+            });
+            refetch();
+           
+          }
+        } catch (error) {
+          console.error('Error adding item to cart:', error);
+        }
+      };
+      
+      addToCart();
+      
     } else {
       Swal.fire({
         title: "You are not Logged in",
@@ -30,6 +53,7 @@ const FoodCard = ({ item }) => {
       });
     }
   };
+  
   return (
     <section>
       <div className="card card-compact w-96 bg-base-100 shadow-xl p-6">
