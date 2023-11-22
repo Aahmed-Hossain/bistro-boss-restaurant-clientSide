@@ -49,7 +49,7 @@ const Navbar = () => {
       </label>
     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-slate-900 text-white rounded-box w-52 ">
       <li><button className="btn btn-sm  btn-ghost">{user.displayName}</button></li>
-      <li> <button className="btn btn-sm  btn-ghost"><Link to={'/'}> <div className="badge badge-secondary">+{cart.length}<FaCartShopping />
+      <li> <button className="btn btn-sm  btn-ghost"><Link to={'/dashboard/cart'}> <div className="badge badge-secondary">+{cart.length}<FaCartShopping />
 </div></Link></button></li>
       <li><button onClick={handleLogout} className="btn btn-sm  btn-ghost">Logout</button></li>
     </ul>
