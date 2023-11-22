@@ -1,33 +1,41 @@
 import img from "../../assets/others/authentication2.png";
-import googleImg from "../../assets/others/google.png";
+
 import githubImg from "../../assets/others/github.png";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import SocialLogin from "../../shared/SocialLogin/SocialLogin";
 const Register = () => {
-  const navigate = useNavigate()
-  const { createUser,updateUser } = useAuth();
+  const navigate = useNavigate();
+  const { createUser, updateUser,  } = useAuth();
+  const publicAxios = useAxiosPublic();
   const {
     register,
-    handleSubmit,reset,
+    handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     createUser(data.email, data.password, data.img).then((result) => {
       console.log(result.user);
       updateUser(data.name, data.img)
-      .then(()=>{
-        console.log("user updated");
-        reset();
-        Swal.fire('WoW', "user updated", "success")
-        navigate('/')
-      })
-      .then(err => console.log(err))
+        .then(() => {
+          const userInfo = { user: data.name, email: data.email };
+          publicAxios.post("/users", userInfo).then((res) => {
+            console.log(res.data);
+            if (res.data.insertedId) {
+              reset();
+              Swal.fire("WoW", "user updated", "success");
+              navigate("/");
+            }
+          });
+        })
+        .then((err) => console.log(err));
     });
   };
-
   return (
     <div className="hero min-h-screen">
       <div className="hero-content flex-col lg:flex-row">
@@ -137,13 +145,8 @@ const Register = () => {
               </button>
             </form>
             <p className="divider">OR</p>
+            <SocialLogin></SocialLogin>
             <button className="rounded-full px-3 py-2 border border-[#d97706] flex justify-around items-center mb-2 w-full">
-              {" "}
-              <img className="h-[1rem] w-[1rem]" src={googleImg} alt="" />
-              <span>Continue with Google</span>
-            </button>
-            <button className="rounded-full px-3 py-2 border border-[#d97706] flex justify-around items-center mb-2 w-full">
-              {" "}
               <img className="h-[1.5rem] w-[1.5rem]" src={githubImg} alt="" />
               <span>Continue with Github</span>
             </button>
@@ -153,7 +156,6 @@ const Register = () => {
                 to={"/login"}
                 className="text-[#d97706] font-bold hover:underline"
               >
-                {" "}
                 Please Login
               </Link>
             </p>

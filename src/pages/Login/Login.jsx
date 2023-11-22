@@ -2,7 +2,6 @@
 
 import { Link, useLocation } from "react-router-dom";
 import githubImg from "../../assets/others/github.png";
-import googleImg from "../../assets/others/google.png";
 import img from "../../assets/others/authentication1.png";
 import {
   loadCaptchaEnginge,
@@ -13,6 +12,7 @@ import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import Swal from "sweetalert2";
 import { useNavigate } from 'react-router-dom';
+import SocialLogin from "../../shared/SocialLogin/SocialLogin";
 
 const Login = () => {
   const [disable, setDisable] = useState(true);
@@ -122,19 +122,11 @@ const Login = () => {
               </div>
             </form>
             <p className="divider">OR</p>
-            <button
-              //   onClick={() => hadleSocialLogin(googleLogin)}
-              className="rounded-full px-3 py-2 border border-[#d97706] flex justify-around items-center mb-2 w-full"
-            >
-              {" "}
-              <img className="h-[1rem] w-[1rem]" src={googleImg} alt="" />
-              <span>Continue with Google</span>
-            </button>
+            <SocialLogin></SocialLogin>
             <button
               //   onClick={() => hadleSocialLogin(githubLogin)}
               className="rounded-full px-3 py-2 border border-[#d97706] flex justify-around items-center mb-2 w-full"
             >
-              {" "}
               <img className="h-[1.5rem] w-[1.5rem]" src={githubImg} alt="" />
               <span>Continue with Github</span>
             </button>
