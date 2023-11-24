@@ -42,7 +42,7 @@ const Cart = () => {
       </div>
       
       {cart.map((item, index) => (
-  <div key={item.email} className="flex items-center justify-between gap-2 py-2 border border-slate-200 rounded-xl mb-4 p-4">
+  <div key={item._id} className="flex items-center justify-between gap-2 py-2 border border-slate-200 rounded-xl mb-4 p-4">
     {/* left div */}
     <div className="flex items-center gap-3">
       
