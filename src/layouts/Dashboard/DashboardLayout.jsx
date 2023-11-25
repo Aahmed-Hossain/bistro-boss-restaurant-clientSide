@@ -83,9 +83,9 @@ const DashboardLayout = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to={"/dashboard/bookings"}>
+                <NavLink to={"/dashboard/paymentHistory"}>
                   <FaBookMedical />
-                  Bookings
+                  PaymentHistory
                 </NavLink>
               </li>
             </>

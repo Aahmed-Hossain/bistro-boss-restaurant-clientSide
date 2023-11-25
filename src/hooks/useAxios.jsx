@@ -12,7 +12,7 @@ const useAxios = () => {
   axiosHook.interceptors.request.use(
     function (config) {
       const token = localStorage.getItem("accessToken");
-      console.log("from interceptor", token);
+      // console.log("from interceptor", token);
       config.headers.authorization = `Bearer ${token}`;
       return config;
     },
@@ -27,7 +27,7 @@ const useAxios = () => {
     },
     async (error) => {
       const status = error.response.status;
-      console.log("interceptor status", status);
+      // console.log("interceptor status", status);
       if (status === 401 || status === 403) {
         await logOut();
         navigate("/login");
