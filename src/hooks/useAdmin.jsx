@@ -7,13 +7,14 @@ const useAdmin = () => {
     const axiosHook = useAxios();
     const {data: isAdmin ,isPending:isAdminLoading} = useQuery({
         queryKey: [user?.email , "isAdmin"],
-        enabled: !! user?.email ,
+        enabled: !! user?.email,
         queryFn: async()=> {
             const res = await axiosHook.get(`/users/admin/${user?.email}`);
             console.log("admin ", res.data);
             return res?.data?.admin;
         }
     })
+    console.log( 'use  admin',isAdmin);
     return [isAdmin,isAdminLoading]
 };
 

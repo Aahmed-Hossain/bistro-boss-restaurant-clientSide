@@ -50,17 +50,20 @@ const AuthProvider = ({ children }) => {
         publicAxios.post("/jwt", userInfo).then((res) => {
           if (res.data.token) {
             localStorage.setItem("accessToken", res.data.token);
+            setLoading(false);
           }
         });
       } else {
         localStorage.removeItem("accessToken");
+        setLoading(false);
       }
-      setLoading(false);
+      
     });
+
     return () => {
-      return unSubscribe;
+      return unSubscribe();
     };
-  }, []);
+  }, [publicAxios]);
   const authInfo = {
     user,
     loading,
